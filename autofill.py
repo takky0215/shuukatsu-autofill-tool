@@ -62,32 +62,31 @@ mobile_domain = 'example.jp'
 # ヘルパー
 # -----------------------------
 def click_dropdown_option_from(index, text):
-dropdowns = driver.find_elements(By.CLASS_NAME, 'jqTransformSelectOpen')
-if index >= len(dropdowns):
-return
-dropdowns[index].click()
-time.sleep(0.5)
+    dropdowns = driver.find_elements(By.CLASS_NAME, 'jqTransformSelectOpen')
+    if index >= len(dropdowns):
+        return
+    dropdowns[index].click()
+    time.sleep(0.5)
 
-options = WebDriverWait(driver, 5).until(
-    EC.presence_of_all_elements_located((By.XPATH, '//ul[@id="getlist" and not(contains(@style,"none"))]/li/a'))
-)
+    options = WebDriverWait(driver, 5).until(
+        EC.presence_of_all_elements_located((By.XPATH, '//ul[@id="getlist" and not(contains(@style,"none"))]/li/a')))
 
-for option in options:
-    if option.text.strip() == text:
-        driver.execute_script("arguments[0].scrollIntoView(true);", option)
-        time.sleep(0.2)
-        option.click()
-        break
+    for option in options:
+        if option.text.strip() == text:
+            driver.execute_script("arguments[0].scrollIntoView(true);", option)
+            time.sleep(0.2)
+            option.click()
+            break
 
 def safe_send(by, value, text):
-elements = driver.find_elements(by, value)
-if elements and text:
-elements[0].send_keys(text)
+    elements = driver.find_elements(by, value)
+    if elements and text:
+        elements[0].send_keys(text)
 
 def safe_click(by, value, index=0):
-elements = driver.find_elements(by, value)
-if len(elements) > index:
-elements[index].click()
+    elements = driver.find_elements(by, value)
+    if len(elements) > index:
+        elements[index].click()
 
 
 
@@ -119,9 +118,9 @@ click_dropdown_option_from(2, birth_day)
 
 radios = driver.find_elements(By.CLASS_NAME, 'jqTransformRadio')
 if gender == 'male' and len(radios) >= 1:
-radios[0].click()
+    radios[0].click()
 elif gender == 'female' and len(radios) >= 2:
-radios[1].click()
+    radios[1].click()
 
 safe_send(By.NAME, 'gyubin1', zipcode1)
 safe_send(By.NAME, 'gyubin2', zipcode2)
@@ -134,16 +133,16 @@ safe_send(By.NAME, 'gtel3', tel3)
 
 checkboxes = driver.find_elements(By.CLASS_NAME, 'jqTransformCheckbox')
 if same_as_current_address and checkboxes:
-checkboxes[0].click()
+    checkboxes[0].click()
 else:
-safe_send(By.NAME, 'kyubin1', vacation_zip1)
-safe_send(By.NAME, 'kyubin2', vacation_zip2)
-click_dropdown_option_from(4, vacation_pref)
-safe_send(By.NAME, 'kadrs1', vacation_addr1)
-safe_send(By.NAME, 'kadrs2', vacation_addr2)
-safe_send(By.NAME, 'ktel1', vacation_tel1)
-safe_send(By.NAME, 'ktel2', vacation_tel2)
-safe_send(By.NAME, 'ktel3', vacation_tel3)
+    safe_send(By.NAME, 'kyubin1', vacation_zip1)
+    safe_send(By.NAME, 'kyubin2', vacation_zip2)
+    click_dropdown_option_from(4, vacation_pref)
+    safe_send(By.NAME, 'kadrs1', vacation_addr1)
+    safe_send(By.NAME, 'kadrs2', vacation_addr2)
+    safe_send(By.NAME, 'ktel1', vacation_tel1)
+    safe_send(By.NAME, 'ktel2', vacation_tel2)
+    safe_send(By.NAME, 'ktel3', vacation_tel3)
 
 safe_send(By.NAME, 'bikoa', seminar_name)
 safe_send(By.NAME, 'bikob', circle_name)
@@ -160,9 +159,6 @@ safe_send(By.NAME, 'domain3', mobile_domain)
 safe_send(By.NAME, 'account4', mobile_account)
 safe_send(By.NAME, 'domain4', mobile_domain)
 
-input("Enterキーで終了します")
-driver.find_element(By.NAME, 'domain3').send_keys(mobile_domain)
-driver.find_element(By.NAME, 'account4').send_keys(mobile_account)
-driver.find_element(By.NAME, 'domain4').send_keys(mobile_domain)
+
 
 input("Enterキーで終了します")
