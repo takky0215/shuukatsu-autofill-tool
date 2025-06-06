@@ -89,7 +89,7 @@ def click_dropdown_by_xpath(dropdown_xpath, text):
 # -----------------------------
 # Selenium設定
 # -----------------------------
-service = Service('C:/Users/takky/Downloads/edgedriver_win64/msedgedriver.exe')
+service = Service('C:/yourpath.../msedgedriver.exe')
 driver = webdriver.Edge(service=service)
 wait = WebDriverWait(driver, 10)
 
