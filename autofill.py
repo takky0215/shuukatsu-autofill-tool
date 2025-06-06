@@ -10,13 +10,14 @@ import time
 # 入力値
 # -----------------------------
 form_url = 'https://mypage.3030.i-webs.jp/mec2027/applicant/entry/index/entrycd/'
+（）
 sei_kanji = '山田'
 mei_kanji = '太郎'
 sei_kana = 'ヤマダ'
 mei_kana = 'タロウ'
 
-birth_year = '2001'
-birth_month = '03'
+birth_year = '2002'
+birth_month = '04'
 birth_day = '15'
 gender = 'male'
 
@@ -25,6 +26,7 @@ zipcode2 = '0000'
 address1 = '千代田区丸の内1-1-1'
 address2 = '日本マンション101'
 current_pref = '東京都'
+#○○都/道/府/県まで記入
 
 tel1 = '03'
 tel2 = '1111'
@@ -45,8 +47,11 @@ circle_name = 'テニスサークル'
 grad_year = '2027'
 grad_month = '03'
 
+#
+#@の前と後で分離
 email_account = 'yamada'
 email_domain = 'example.com'
+
 mobile_account = 'yamada.mobile'
 mobile_domain = 'example.jp'
 
@@ -57,33 +62,33 @@ mobile_domain = 'example.jp'
 # ヘルパー
 # -----------------------------
 def click_dropdown_option_from(index, text):
-    dropdowns = driver.find_elements(By.CLASS_NAME, 'jqTransformSelectOpen')
-    dropdowns[index].click()
-    time.sleep(0.5)
+dropdowns = driver.find_elements(By.CLASS_NAME, 'jqTransformSelectOpen')
+if index >= len(dropdowns):
+return
+dropdowns[index].click()
+time.sleep(0.5)
 
-    options = WebDriverWait(driver, 5).until(
-        EC.presence_of_all_elements_located((By.XPATH, '//ul[@id="getlist" and not(contains(@style,"none"))]/li/a'))
-    )
+options = WebDriverWait(driver, 5).until(
+    EC.presence_of_all_elements_located((By.XPATH, '//ul[@id="getlist" and not(contains(@style,"none"))]/li/a'))
+)
 
-    for option in options:
-        if option.text.strip() == text:
-            driver.execute_script("arguments[0].scrollIntoView(true);", option)
-            time.sleep(0.2)
-            option.click()
-            break
+for option in options:
+    if option.text.strip() == text:
+        driver.execute_script("arguments[0].scrollIntoView(true);", option)
+        time.sleep(0.2)
+        option.click()
+        break
 
-def click_dropdown_by_xpath(dropdown_xpath, text):
-    driver.find_element(By.XPATH, dropdown_xpath).click()
-    time.sleep(0.5)
-    options = WebDriverWait(driver, 5).until(
-        EC.presence_of_all_elements_located((By.XPATH, '//ul[@id="getlist" and not(contains(@style,"none"))]/li/a'))
-    )
-    for option in options:
-        if option.text.strip() == text:
-            driver.execute_script("arguments[0].scrollIntoView(true);", option)
-            time.sleep(0.2)
-            option.click()
-            break
+def safe_send(by, value, text):
+elements = driver.find_elements(by, value)
+if elements and text:
+elements[0].send_keys(text)
+
+def safe_click(by, value, index=0):
+elements = driver.find_elements(by, value)
+if len(elements) > index:
+elements[index].click()
+
 
 
 # -----------------------------
@@ -103,54 +108,59 @@ wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'btn_w160b'))).click()
 # -----------------------------
 # 入力
 # -----------------------------
-driver.find_element(By.NAME, 'kname1').send_keys(sei_kanji)
-driver.find_element(By.NAME, 'kname2').send_keys(mei_kanji)
-driver.find_element(By.NAME, 'yname1').send_keys(sei_kana)
-driver.find_element(By.NAME, 'yname2').send_keys(mei_kana)
+safe_send(By.NAME, 'kname1', sei_kanji)
+safe_send(By.NAME, 'kname2', mei_kanji)
+safe_send(By.NAME, 'yname1', sei_kana)
+safe_send(By.NAME, 'yname2', mei_kana)
 
 click_dropdown_option_from(0, birth_year)
 click_dropdown_option_from(1, birth_month)
 click_dropdown_option_from(2, birth_day)
 
-if gender == 'male':
-    driver.find_elements(By.CLASS_NAME, 'jqTransformRadio')[0].click()
-else:
-    driver.find_elements(By.CLASS_NAME, 'jqTransformRadio')[1].click()
+radios = driver.find_elements(By.CLASS_NAME, 'jqTransformRadio')
+if gender == 'male' and len(radios) >= 1:
+radios[0].click()
+elif gender == 'female' and len(radios) >= 2:
+radios[1].click()
 
-driver.find_element(By.NAME, 'gyubin1').send_keys(zipcode1)
-driver.find_element(By.NAME, 'gyubin2').send_keys(zipcode2)
+safe_send(By.NAME, 'gyubin1', zipcode1)
+safe_send(By.NAME, 'gyubin2', zipcode2)
 click_dropdown_option_from(3, current_pref)
-driver.find_element(By.NAME, 'gadrs1').send_keys(address1)
-driver.find_element(By.NAME, 'gadrs2').send_keys(address2)
-driver.find_element(By.NAME, 'gtel1').send_keys(tel1)
-driver.find_element(By.NAME, 'gtel2').send_keys(tel2)
-driver.find_element(By.NAME, 'gtel3').send_keys(tel3)
+safe_send(By.NAME, 'gadrs1', address1)
+safe_send(By.NAME, 'gadrs2', address2)
+safe_send(By.NAME, 'gtel1', tel1)
+safe_send(By.NAME, 'gtel2', tel2)
+safe_send(By.NAME, 'gtel3', tel3)
 
-if same_as_current_address:
-    driver.find_element(By.CLASS_NAME, 'jqTransformCheckbox').click()
+checkboxes = driver.find_elements(By.CLASS_NAME, 'jqTransformCheckbox')
+if same_as_current_address and checkboxes:
+checkboxes[0].click()
 else:
-    driver.find_element(By.NAME, 'kyubin1').send_keys(vacation_zip1)
-    driver.find_element(By.NAME, 'kyubin2').send_keys(vacation_zip2)
-    click_dropdown_option_from(4, vacation_pref)
-    driver.find_element(By.NAME, 'kadrs1').send_keys(vacation_addr1)
-    driver.find_element(By.NAME, 'kadrs2').send_keys(vacation_addr2)
-    driver.find_element(By.NAME, 'ktel1').send_keys(vacation_tel1)
-    driver.find_element(By.NAME, 'ktel2').send_keys(vacation_tel2)
-    driver.find_element(By.NAME, 'ktel3').send_keys(vacation_tel3)
+safe_send(By.NAME, 'kyubin1', vacation_zip1)
+safe_send(By.NAME, 'kyubin2', vacation_zip2)
+click_dropdown_option_from(4, vacation_pref)
+safe_send(By.NAME, 'kadrs1', vacation_addr1)
+safe_send(By.NAME, 'kadrs2', vacation_addr2)
+safe_send(By.NAME, 'ktel1', vacation_tel1)
+safe_send(By.NAME, 'ktel2', vacation_tel2)
+safe_send(By.NAME, 'ktel3', vacation_tel3)
 
-driver.find_element(By.NAME, 'bikoa').send_keys(seminar_name)
-driver.find_element(By.NAME, 'bikob').send_keys(circle_name)
-click_dropdown_option_from(5, grad_year)  # 年
-click_dropdown_option_from(6, grad_month)  # 月
+safe_send(By.NAME, 'bikoa', seminar_name)
+safe_send(By.NAME, 'bikob', circle_name)
+click_dropdown_option_from(5, grad_year)
+click_dropdown_option_from(6, grad_month)
 
-# E-mailアドレス
-driver.find_element(By.NAME, 'account1').send_keys(email_account)
-driver.find_element(By.NAME, 'domain1').send_keys(email_domain)
-driver.find_element(By.NAME, 'account2').send_keys(email_account)
-driver.find_element(By.NAME, 'domain2').send_keys(email_domain)
+safe_send(By.NAME, 'account1', email_account)
+safe_send(By.NAME, 'domain1', email_domain)
+safe_send(By.NAME, 'account2', email_account)
+safe_send(By.NAME, 'domain2', email_domain)
 
-# 携帯アドレス
-driver.find_element(By.NAME, 'account3').send_keys(mobile_account)
+safe_send(By.NAME, 'account3', mobile_account)
+safe_send(By.NAME, 'domain3', mobile_domain)
+safe_send(By.NAME, 'account4', mobile_account)
+safe_send(By.NAME, 'domain4', mobile_domain)
+
+input("Enterキーで終了します")
 driver.find_element(By.NAME, 'domain3').send_keys(mobile_domain)
 driver.find_element(By.NAME, 'account4').send_keys(mobile_account)
 driver.find_element(By.NAME, 'domain4').send_keys(mobile_domain)
