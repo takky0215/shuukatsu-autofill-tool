@@ -1,11 +1,12 @@
-#個人情報自動入力ツール (Shuukatsu Autofill Tool)#
+# 自動入力ツール (Shuukatsu Autofill Tool)
 
-このツールは、i-web などの就職活動フォームに自動で情報を入力する Python スクリプトです。
-同じ情報を何度も入力する手間を省けます。
+このツールは、i-web などの就職活動フォームに自動で情報を入力する Python スクリプトです。  
+Microsoft Edge ブラウザを対象としています。  
+同じ情報を何度も入力する手間を省けます。  
 
-使用前の準備
+## 使用前の準備
 
-必須環境
+### 必須環境
 
 Python 3.9 以上
 
@@ -15,11 +16,11 @@ Selenium ライブラリ
 
 EdgeDriver
 
-ライブラリインストール
+### ライブラリインストール
 
 pip install selenium
 
-EdgeDriver の設定
+### EdgeDriver の設定
 
 EdgeDriver をダウンロード
 
@@ -27,9 +28,9 @@ msedgedriver.exe を解凍
 
 ファイルパスをコード内の service = Service(...) に設定
 
-使用手順
+## 使用手順
 
-1. コードのダウンロード
+### 1. コードのダウンロード
 
 GitHub ページで
 
@@ -39,34 +40,34 @@ GitHub ページで
 
 git clone https://github.com/takky0215/shuukatsu-autofill-tool.git
 
-2. autofill.py の編集
+### 2. autofill.py の編集
 
-スクリプトの先頭部分に、以下の情報を入力
+スクリプトの先頭部分に、以下の情報を入力してください：
 
-sei_kanji = '山田'
-mei_kanji = '太郎'
-sei_kana = 'ヤマダ'
-mei_kana = 'タロウ'
-birth_year = '2001'
-...
-email_account = 'yamada'
-email_domain = 'example.com'
-...
-url = 'https://mypage.3030.i-webs.jp/mec2027/applicant/entry/index/entrycd/'
+sei_kanji = '山田'  
+mei_kanji = '太郎'  
+sei_kana = 'ヤマダ'  
+mei_kana = 'タロウ'  
+birth_year = '2001'  
+...  
+email_account = 'yamada'  
+email_domain = 'example.com'  
+...  
+url = 'https://mypage...'
 
-3. 実行
+### 3. 実行
 
-ターミナルや VSCode のターミナルで、ファイルのあるフォルダまでcdし、以下を実行:
+ターミナルや VSCode のターミナルで、ファイルのあるフォルダまで cd し、以下を実行:
 
 python autofill.py
 
-Microsoft Edge が立ち上がり、情報が入力されます。
+Microsoft Edge が立ち上がり、フォームに情報が自動入力されます。
 
-4. 手動確認
+### 4. 手動確認
 
-最後に表示されたフォームの入力内容を確認し、送信ボタンは自分で押してください
+最後に表示されたフォームの入力内容を確認し、送信ボタンは必ず自分で押してください。
 
-注意
+## 注意
 
 EdgeDriver のパスや URL は環境によって変わるので要確認
 
@@ -74,6 +75,5 @@ EdgeDriver のパスや URL は環境によって変わるので要確認
 
 GitHub に公開する場合、個人情報を含めないよう注意
 
-作者: takky0215
 
-
+#### 作者: takky0215
