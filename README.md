@@ -53,7 +53,7 @@ birth_year = '2001'
 email_account = 'yamada'  
 email_domain = 'example.com'  
 ...  
-url = 'https://mypage...'
+url = 'https ://mypage/○○...'
 
 ### 3. 実行
 
