@@ -5,41 +5,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-# -----------------------------
-# ヘルパー
-# -----------------------------
-def click_dropdown_option_from(index, text):
-    dropdowns = driver.find_elements(By.CLASS_NAME, 'jqTransformSelectOpen')
-    dropdowns[index].click()
-    time.sleep(0.5)
-
-    options = WebDriverWait(driver, 5).until(
-        EC.presence_of_all_elements_located((By.XPATH, '//ul[@id="getlist" and not(contains(@style,"none"))]/li/a'))
-    )
-
-    for option in options:
-        if option.text.strip() == text:
-            driver.execute_script("arguments[0].scrollIntoView(true);", option)
-            time.sleep(0.2)
-            option.click()
-            break
-
-def click_dropdown_by_xpath(dropdown_xpath, text):
-    driver.find_element(By.XPATH, dropdown_xpath).click()
-    time.sleep(0.5)
-    options = WebDriverWait(driver, 5).until(
-        EC.presence_of_all_elements_located((By.XPATH, '//ul[@id="getlist" and not(contains(@style,"none"))]/li/a'))
-    )
-    for option in options:
-        if option.text.strip() == text:
-            driver.execute_script("arguments[0].scrollIntoView(true);", option)
-            time.sleep(0.2)
-            option.click()
-            break
 
 # -----------------------------
 # 入力値
 # -----------------------------
+form_url = 'https://mypage.3030.i-webs.jp/mec2027/applicant/entry/index/entrycd/'
 sei_kanji = '山田'
 mei_kanji = '太郎'
 sei_kana = 'ヤマダ'
@@ -81,6 +51,41 @@ mobile_account = 'yamada.mobile'
 mobile_domain = 'example.jp'
 
 
+
+
+# -----------------------------
+# ヘルパー
+# -----------------------------
+def click_dropdown_option_from(index, text):
+    dropdowns = driver.find_elements(By.CLASS_NAME, 'jqTransformSelectOpen')
+    dropdowns[index].click()
+    time.sleep(0.5)
+
+    options = WebDriverWait(driver, 5).until(
+        EC.presence_of_all_elements_located((By.XPATH, '//ul[@id="getlist" and not(contains(@style,"none"))]/li/a'))
+    )
+
+    for option in options:
+        if option.text.strip() == text:
+            driver.execute_script("arguments[0].scrollIntoView(true);", option)
+            time.sleep(0.2)
+            option.click()
+            break
+
+def click_dropdown_by_xpath(dropdown_xpath, text):
+    driver.find_element(By.XPATH, dropdown_xpath).click()
+    time.sleep(0.5)
+    options = WebDriverWait(driver, 5).until(
+        EC.presence_of_all_elements_located((By.XPATH, '//ul[@id="getlist" and not(contains(@style,"none"))]/li/a'))
+    )
+    for option in options:
+        if option.text.strip() == text:
+            driver.execute_script("arguments[0].scrollIntoView(true);", option)
+            time.sleep(0.2)
+            option.click()
+            break
+
+
 # -----------------------------
 # Selenium設定
 # -----------------------------
@@ -91,7 +96,7 @@ wait = WebDriverWait(driver, 10)
 # -----------------------------
 # 画面遷移
 # -----------------------------
-driver.get('https://mypage.3030.i-webs.jp/mec2027/applicant/entry/index/entrycd/')
+driver.get(form_url)
 wait.until(EC.element_to_be_clickable((By.ID, 'first_access'))).click()
 wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'btn_w160b'))).click()
 
