@@ -22,7 +22,8 @@ pip install selenium
 
 ### EdgeDriver の設定
 
-EdgeDriver をダウンロード
+EdgeDriver をダウンロード  
+"https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/?form=MA13LH"
 
 msedgedriver.exe を解凍
 
