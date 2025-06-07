@@ -9,8 +9,13 @@ import time
 # -----------------------------
 # 入力値
 # -----------------------------
-form_url = 'https://mypage.3030.i-webs.jp/mec2027/applicant/entry/index/entrycd/'
-（）
+your_path = 'C:/Users/yourname/Downloads/msedgedriver.exe'
+# msedgedriver.exe が保存されているフォルダのフルパスを入力（例: C:/Users/〇〇/Downloads/...）
+
+form_url = 'https://mypage.XXXX.i-webs.jp/YYYY/applicant/entry/index/entrycd/'
+# 自動入力を行いたいi-webのエントリーフォームURLを入力
+# 企業ごとに「XXXX」や「YYYY」の部分が異なります
+
 sei_kanji = '山田'
 mei_kanji = '太郎'
 sei_kana = 'ヤマダ'
@@ -28,11 +33,18 @@ address2 = '日本マンション101'
 current_pref = '東京都'
 #○○都/道/府/県まで記入
 
-tel1 = '03'
-tel2 = '1111'
-tel3 = '1111'
+gtel1 = '03'
+gtel2 = '1111'
+gtel3 = '1111'
+
+kttel1 = '090'
+kttel2 = '2222'
+kttel3 = '2222'
+
 
 same_as_current_address = False
+#現住所と帰省先住所が異なる場合はFalse  
+
 vacation_zip1 = '222'
 vacation_zip2 = '0000'
 vacation_addr1 = '港区芝公園2-2-2'
@@ -93,10 +105,9 @@ def safe_click(by, value, index=0):
 # -----------------------------
 # Selenium設定
 # -----------------------------
-service = Service('C:/yourpath.../msedgedriver.exe')
+service = Service(your_path)
 driver = webdriver.Edge(service=service)
 wait = WebDriverWait(driver, 10)
-
 # -----------------------------
 # 画面遷移
 # -----------------------------
@@ -127,9 +138,13 @@ safe_send(By.NAME, 'gyubin2', zipcode2)
 click_dropdown_option_from(3, current_pref)
 safe_send(By.NAME, 'gadrs1', address1)
 safe_send(By.NAME, 'gadrs2', address2)
-safe_send(By.NAME, 'gtel1', tel1)
-safe_send(By.NAME, 'gtel2', tel2)
-safe_send(By.NAME, 'gtel3', tel3)
+safe_send(By.NAME, 'gtel1', gtel1)
+safe_send(By.NAME, 'gtel2', gtel2)
+safe_send(By.NAME, 'gtel3', gtel3)
+safe_send(By.NAME, 'kttel1', kttel1)
+safe_send(By.NAME, 'kttel2', kttel2)
+safe_send(By.NAME, 'kttel3', kttel3)
+
 
 checkboxes = driver.find_elements(By.CLASS_NAME, 'jqTransformCheckbox')
 if same_as_current_address and checkboxes:
