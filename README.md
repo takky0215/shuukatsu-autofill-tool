@@ -17,33 +17,38 @@ Selenium ライブラリ
 EdgeDriver
 
 ### ライブラリインストール
-
+以下のコマンドを実行して、Selenium をインストールします：  
 pip install selenium
 
 ### EdgeDriver の設定
 
-EdgeDriver をダウンロード  
-"https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/?form=MA13LH"
+#### 1. EdgeDriver をダウンロード  
+EdgeDriverダウンロードページからお使いの Edge のバージョンに対応したドライバをダウンロード  
+URL : https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/?form=MA13LH
 
-msedgedriver.exe を解凍
+#### 2.msedgedriver.exe を解凍  
 
-ファイルパスをコード内の service = Service(...) に設定
+#### 3. autofill.py 内の your_path = '...' に、msedgedriver.exe のパスを指定します
+
+
 
 ## 使用手順
 
 ### 1. コードのダウンロード
 
+以下のいずれかの方法でコードを取得します：  
 GitHub ページで
+「Code」→「Download ZIP」
 
-「Code」→「Download ZIP」か
-
-または Git を使う:
-
+または Git を使う:  
 git clone https://github.com/takky0215/shuukatsu-autofill-tool.git
 
 ### 2. autofill.py の編集
 
 スクリプトの先頭部分に、以下の情報を入力してください：
+
+your_path = 'C:/Users/yourname/Downloads/msedgedriver.exe'  # msedgedriver.exe のパスを入力
+form_url = 'https://mypage.XXXX.i-webs.jp/YYYY/applicant/entry/index/entrycd/'  # 入力対象のフォームURL（企業ごとに異なります）
 
 sei_kanji = '山田'  
 mei_kanji = '太郎'  
@@ -53,29 +58,26 @@ birth_year = '2001'
 ...  
 email_account = 'yamada'  
 email_domain = 'example.com'  
-...  
-formurl = 'https ://mypage/○○...'  
-(情報を入力したいサイトのＵＲＬを入力)  
+
 
 ### 3. 実行
 
-ターミナルや VSCode のターミナルで、ファイルのあるフォルダまで cd し、以下を実行:
+ターミナルまたは VSCode のターミナルで、スクリプトがあるフォルダに移動し、以下のコマンドを実行：  
 
 python autofill.py
 
-Microsoft Edge が立ち上がり、フォームに情報が自動入力されます。
+Microsoft Edge が自動で起動し、情報がフォームに入力されます。  
 
 ### 4. 手動確認
 
-最後に表示されたフォームの入力内容を確認し、送信ボタンは必ず自分で押してください。
+自動入力が完了したら、入力された情報を必ず確認し、「送信」ボタンは手動で押してください。  
+
+
 
 ## 注意
 
-EdgeDriver のパスや URL は環境によって変わるので要確認
-
-フォームがアップデートされると動かなくなることがあります
-
-GitHub に公開する場合、個人情報を含めないよう注意
+EdgeDriver のパスや URL は環境ごとに異なるため、必ず確認・修正してください  
+フォームの仕様変更（HTML構造の変更）があると、正しく動作しない可能性があります  
 
 
 #### 作者: takky0215
