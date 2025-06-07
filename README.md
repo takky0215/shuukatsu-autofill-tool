@@ -48,7 +48,7 @@ git clone https://github.com/takky0215/shuukatsu-autofill-tool.git
 スクリプトの先頭部分に、以下の情報を入力してください：
 
 your_path = 'C:/Users/yourname/Downloads/msedgedriver.exe'  # msedgedriver.exe のパスを入力
-form_url = 'https://mypage.XXXX.i-webs.jp/YYYY/applicant/entry/index/entrycd/'  # 入力対象のフォームURL（企業ごとに異なります）
+form_url = 'https://mypage.`XXXX`.i-webs.jp/`YYYY`/applicant/entry/index/entrycd/'  # 入力対象のフォームURL（企業ごとに異なります）
 
 sei_kanji = '山田'  
 mei_kanji = '太郎'  
