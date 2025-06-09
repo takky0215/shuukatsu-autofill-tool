@@ -11,9 +11,24 @@ import time
 
 form_url = ""
 
-def autofill_form(data):
-    global form_url
-    if not form_url:
+# ======================= 改良① フィールド構造の統一 =======================
+fields = [
+    ("姓（漢字）", "kname1"), ("名（漢字）", "kname2"),
+    ("姓（カナ）", "yname1"), ("名（カナ）", "yname2"),
+    ("郵便番号（前半）", "gyubin1"), ("郵便番号（後半）", "gyubin2"),
+    ("住所1", "gadrs1"), ("住所2", "gadrs2"),
+    ("電話番号1", "gtel1"), ("電話番号2", "gtel2"), ("電話番号3", "gtel3"),
+    ("休暇先 郵便番号（前半）", "kyubin1"), ("休暇先 郵便番号（後半）", "kyubin2"),
+    ("休暇先 住所1", "kadrs1"), ("休暇先 住所2", "kadrs2"),
+    ("休暇先 電話番号1", "ktel1"), ("休暇先 電話番号2", "ktel2"), ("休暇先 電話番号3", "ktel3"),
+    ("ゼミ名", "bikoa"), ("クラブ・サークル名", "bikob"),
+    ("メールアカウント", "account1"), ("メールドメイン", "domain1"),
+    ("携帯メールアカウント", "account3"), ("携帯メールドメイン", "domain3")
+]
+
+# ======================= 自動入力処理 =======================
+def autofill_form(data, url):  # 改良④ form_urlを引数に
+    if not url:
         messagebox.showerror("URL未設定", "フォームのURLが入力されていません")
         return
 
@@ -21,7 +36,7 @@ def autofill_form(data):
     driver = webdriver.Edge(service=service)
     wait = WebDriverWait(driver, 10)
 
-    driver.get(form_url)
+    driver.get(url)
     wait.until(EC.element_to_be_clickable((By.ID, 'first_access'))).click()
     wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'btn_w160b'))).click()
 
@@ -45,11 +60,11 @@ def autofill_form(data):
                 option.click()
                 break
 
-    safe_send('kname1', data['姓（漢字）'])
-    safe_send('kname2', data['名（漢字）'])
-    safe_send('yname1', data['姓（カナ）'])
-    safe_send('yname2', data['名（カナ）'])
+    # 入力処理
+    for label, name in fields:
+        safe_send(name, data.get(label, ""))
 
+    # 特殊入力処理（ラジオボタン・セレクトボックスなど）
     click_dropdown(0, data['生年'])
     click_dropdown(1, data['生月'])
     click_dropdown(2, data['生日'])
@@ -60,43 +75,24 @@ def autofill_form(data):
     elif data['性別'] == 'female' and len(radios) >= 2:
         radios[1].click()
 
-    safe_send('gyubin1', data['郵便番号（前半）'])
-    safe_send('gyubin2', data['郵便番号（後半）'])
-    click_dropdown(3, data['都道府県'])
-    safe_send('gadrs1', data['住所1'])
-    safe_send('gadrs2', data['住所2'])
-    safe_send('gtel1', data['電話番号1'])
-    safe_send('gtel2', data['電話番号2'])
-    safe_send('gtel3', data['電話番号3'])
-
     checkboxes = driver.find_elements(By.CLASS_NAME, 'jqTransformCheckbox')
     if data['休暇先と同一（True/False）'].lower() == 'true' and checkboxes:
         checkboxes[0].click()
     else:
-        safe_send('kyubin1', data['休暇先 郵便番号（前半）'])
-        safe_send('kyubin2', data['休暇先 郵便番号（後半）'])
-        click_dropdown(4, data['休暇先 都道府県'])
-        safe_send('kadrs1', data['休暇先 住所1'])
-        safe_send('kadrs2', data['休暇先 住所2'])
-        safe_send('ktel1', data['休暇先 電話番号1'])
-        safe_send('ktel2', data['休暇先 電話番号2'])
-        safe_send('ktel3', data['休暇先 電話番号3'])
+        click_dropdown(3, data['休暇先 都道府県'])
 
-    safe_send('bikoa', data['ゼミ名'])
-    safe_send('bikob', data['クラブ・サークル名'])
+    click_dropdown(4, data['都道府県'])
     click_dropdown(5, data['卒業年'])
     click_dropdown(6, data['卒業月'])
 
-    safe_send('account1', data['メールアカウント'])
-    safe_send('domain1', data['メールドメイン'])
+    # 重複項目にも送信
     safe_send('account2', data['メールアカウント'])
     safe_send('domain2', data['メールドメイン'])
-    safe_send('account3', data['携帯メールアカウント'])
-    safe_send('domain3', data['携帯メールドメイン'])
     safe_send('account4', data['携帯メールアカウント'])
     safe_send('domain4', data['携帯メールドメイン'])
 
     input("Enterでブラウザを閉じます")
+
 
 def open_url_input():
     url_window = tk.Toplevel(root)
